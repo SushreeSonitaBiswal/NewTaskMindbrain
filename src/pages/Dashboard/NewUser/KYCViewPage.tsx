@@ -7,7 +7,7 @@ interface Props {
   onBack: () => void;
 }
 
-const KYCViewPage: React.FC<Props> = ({ agent, onBack }) => {
+const KYCViewPage: React.FC<Props> = ({ agent, onBack,onTeamView}) => {
   return (
     <Box sx={{ p: 3 }}>
       {/* Header */}
@@ -53,6 +53,7 @@ const KYCViewPage: React.FC<Props> = ({ agent, onBack }) => {
         <Tab label="Overview" value="overview" onClick={onBack} />
         <Tab label="KYC & Bank" value="kyc" />
         <Tab label="Team" value="team" />
+           {/* <Tab label="Team" value="team" onClick={onTeamView} /> */}
         <Tab label="Earnings" value="earnings" />
         <Tab label="History" value="history" />
       </Tabs>

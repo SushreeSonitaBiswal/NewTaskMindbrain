@@ -7,23 +7,47 @@
 //   Tab,
 //   Grid,
 //   Paper,
-//   Button,
+//   Button
 // } from "@mui/material";
+
 // import type { Agent } from "./types";
+// import EarningPage from "./EarningPage";
+// import HistoryPage from "./HistoryPage";
 
 // interface Props {
 //   agent: Agent;
 //   onClose: () => void;
 //   onKYCView: () => void;
 //   onTeamView: () => void;
+//   onEarningsView: () => void;
+//   onHistoryView: () => void;
+//   onEditProfile: () => void;
+//   onUpgrade: () => void;
 // }
 
-// const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamView }) => {
+// const AgentDetailsPage: React.FC<Props> = ({
+//   agent,
+//   onClose,
+//   onKYCView,
+//   onTeamView,
+//   onEarningsView,
+//   onHistoryView,
+//   onEditProfile,
+//   onUpgrade
+// }) => {
 //   const [tab, setTab] = React.useState<string>("overview");
+
+//   const handleTabChange = (_: any, value: string) => {
+//     if (value === "kyc") return onKYCView();
+//     if (value === "team") return onTeamView();
+//     if (value === "earnings") return onEarningsView();
+//     if (value === "history") return onHistoryView();
+//     setTab(value);
+//   };
 
 //   return (
 //     <Box sx={{ width: "100%", p: 3 }}>
-//       {/* Header (Figma exact) */}
+//       {/* HEADER */}
 //       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
 //         <Avatar src={agent.avatar} sx={{ width: 56, height: 56 }} />
 //         <Box>
@@ -34,37 +58,48 @@
 //         </Box>
 //       </Box>
 
-//       {/* Tabs */}
+//       {/* TABS */}
 //       <Tabs
 //         value={tab}
-//         onChange={(e, v) => setTab(v)}
+//         onChange={handleTabChange}
+//         centered
+//         TabIndicatorProps={{ style: { display: "none" } }}
 //         sx={{
 //           mb: 2,
 //           "& .MuiTab-root": {
 //             textTransform: "none",
 //             borderRadius: 2,
-//             minHeight: 36,
+//             px: 3,
+//             mx: 0.5,
+//             fontWeight: 600,
+//             background: "#f4f6f8",
+//             border: "1px solid #e5e7eb",
+//             color: "#475467"
 //           },
+//           "& .Mui-selected": {
+//             background: "#1976d2",
+//             color: "#fff",
+//             borderColor: "#1976d2"
+//           }
 //         }}
-//         centered
 //       >
 //         <Tab label="Overview" value="overview" />
-//         <Tab label="KYC & Bank" value="kyc" onClick={onKYCView} />
-//         <Tab label="Team" value="team" onClick={onTeamView} />
+//         <Tab label="KYC & Bank" value="kyc" />
+//         <Tab label="Team" value="team" />
 //         <Tab label="Earnings" value="earnings" />
 //         <Tab label="History" value="history" />
 //       </Tabs>
 
-//       {/* Body */}
+//       {/* ---------------- OVERVIEW TAB ---------------- */}
 //       {tab === "overview" && (
 //         <Box>
-//           {/* Stats row */}
+//           {/* STATS CARDS */}
 //           <Grid container spacing={2} sx={{ mb: 2 }}>
 //             {[
 //               { title: "Team Members", value: "45", bg: "#f2f6ff" },
 //               { title: "Total BV", value: "12450", bg: "#fff5f8" },
 //               { title: "Total Earnings", value: "₹1,45,600", bg: "#f3fff4" },
-//               { title: "Current Month BV", value: "2340", bg: "#fff7f3" },
+//               { title: "Current Month BV", value: "2340", bg: "#fff7f3" }
 //             ].map((s) => (
 //               <Grid item xs={6} sm={3} key={s.title}>
 //                 <Paper sx={{ p: 2, borderRadius: 2, background: s.bg }}>
@@ -75,12 +110,19 @@
 //             ))}
 //           </Grid>
 
-//           {/* Contact info card */}
-//           <Paper sx={{ p: 2, mb: 2, border: "1px solid #dfe8ff", borderRadius: 2 }}>
+//           {/* BASIC INFO */}
+//           <Paper
+//             sx={{
+//               p: 2,
+//               mb: 2,
+//               border: "1px solid #dfe8ff",
+//               borderRadius: 2
+//             }}
+//           >
 //             <Grid container spacing={2}>
 //               <Grid item xs={6}>
 //                 <Typography variant="caption">Phone</Typography>
-//                 <Typography>+91 98765 43210</Typography>
+//                 <Typography>{agent.phone}</Typography>
 //               </Grid>
 //               <Grid item xs={6}>
 //                 <Typography variant="caption">Join Date</Typography>
@@ -88,7 +130,7 @@
 //               </Grid>
 //               <Grid item xs={6}>
 //                 <Typography variant="caption">Email</Typography>
-//                 <Typography>rajesh.kumar@email.com</Typography>
+//                 <Typography>{agent.email}</Typography>
 //               </Grid>
 //               <Grid item xs={6}>
 //                 <Typography variant="caption">Last Active</Typography>
@@ -97,21 +139,60 @@
 //             </Grid>
 //           </Paper>
 
-//           {/* Package card */}
-//           <Paper sx={{ p: 2, mb: 2, border: "1px solid #dfe8ff", borderRadius: 2 }}>
-//             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+//           {/* PACKAGE INFO */}
+//           <Paper
+//             sx={{
+//               p: 2,
+//               mb: 2,
+//               border: "1px solid #dfe8ff",
+//               borderRadius: 2
+//             }}
+//           >
+//             <Box
+//               sx={{
+//                 display: "flex",
+//                 justifyContent: "space-between",
+//                 alignItems: "center"
+//               }}
+//             >
 //               <Box>
-//                 <Typography sx={{ fontWeight: 600 }}>Package Information</Typography>
+//                 <Typography sx={{ fontWeight: 600 }}>
+//                   Package Information
+//                 </Typography>
 //                 <Typography>Silver Package</Typography>
 //                 <Typography variant="caption">Package Value: ₹5,000</Typography>
 //               </Box>
-//               <Button variant="contained" size="small">Upgrade</Button>
+
+//               {/* GREEN COMPACT UPGRADE BUTTON */}
+//               <Button
+//                 variant="contained"
+//                 onClick={onUpgrade}
+//                 sx={{
+//                   backgroundColor: "#22c55e",
+//                   "&:hover": { backgroundColor: "#16a34a" },
+//                   borderRadius: "6px",
+//                   padding: "3px 12px",
+//                   minHeight: "28px",
+//                   fontSize: "13px",
+//                   textTransform: "none"
+//                 }}
+//               >
+//                 Upgrade
+//               </Button>
 //             </Box>
 //           </Paper>
 
-//           {/* Network position */}
-//           <Paper sx={{ p: 2, border: "1px solid #dfe8ff", borderRadius: 2 }}>
-//             <Typography sx={{ fontWeight: 600, mb: 1 }}>Network Position</Typography>
+//           {/* NETWORK */}
+//           <Paper
+//             sx={{
+//               p: 2,
+//               border: "1px solid #dfe8ff",
+//               borderRadius: 2
+//             }}
+//           >
+//             <Typography sx={{ fontWeight: 600, mb: 1 }}>
+//               Network Position
+//             </Typography>
 //             <Grid container spacing={2}>
 //               <Grid item xs={6}>
 //                 <Paper sx={{ p: 1, textAlign: "center", borderRadius: 1 }}>
@@ -128,18 +209,33 @@
 //             </Grid>
 //           </Paper>
 
-//           {/* footer buttons */}
-//           <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
-//             <Button variant="outlined" onClick={onClose}>Close</Button>
-//             <Button variant="contained" color="error">Suspend</Button>
-//             <Button variant="contained">Edit</Button>
+//           {/* FOOTER BUTTONS */}
+//           <Box
+//             sx={{
+//               display: "flex",
+//               justifyContent: "center",
+//               gap: 2,
+//               mt: 3
+//             }}
+//           >
+//             <Button variant="outlined" onClick={onClose}>
+//               Close
+//             </Button>
+//             <Button variant="contained" color="error">
+//               Suspend
+//             </Button>
+//             <Button variant="contained" onClick={onEditProfile}>
+//               Edit
+//             </Button>
 //           </Box>
 //         </Box>
 //       )}
 
-//       {/* Earnings / History placeholders */}
-//       {tab === "earnings" && <Typography> Earnings content </Typography>}
-//       {tab === "history" && <Typography> History content </Typography>}
+//       {/* ---------------- EARNINGS TAB ---------------- */}
+//       {tab === "earnings" && <EarningPage />}
+
+//       {/* ---------------- HISTORY TAB ---------------- */}
+//       {tab === "history" && <HistoryPage onEditProfile={onEditProfile} />}
 //     </Box>
 //   );
 // };
@@ -147,7 +243,9 @@
 // export default AgentDetailsPage;
 
 
-import React from "react";
+
+
+ import React from "react";
 import {
   Box,
   Avatar,
@@ -156,23 +254,47 @@ import {
   Tab,
   Grid,
   Paper,
-  Button,
+  Button
 } from "@mui/material";
+
 import type { Agent } from "./types";
+import EarningPage from "./EarningPage";
+import HistoryPage from "./HistoryPage";
 
 interface Props {
   agent: Agent;
   onClose: () => void;
   onKYCView: () => void;
   onTeamView: () => void;
+  onEarningsView: () => void;
+  onHistoryView: () => void;
+  onEditProfile: () => void;
+  onUpgrade: () => void;
 }
 
-const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamView }) => {
+const AgentDetailsPage: React.FC<Props> = ({
+  agent,
+  onClose,
+  onKYCView,
+  onTeamView,
+  onEarningsView,
+  onHistoryView,
+  onEditProfile,
+  onUpgrade
+}) => {
   const [tab, setTab] = React.useState<string>("overview");
+
+  const handleTabChange = (_: any, value: string) => {
+    if (value === "kyc") return onKYCView();
+    if (value === "team") return onTeamView();
+    if (value === "earnings") return onEarningsView();
+    if (value === "history") return onHistoryView();
+    setTab(value);
+  };
 
   return (
     <Box sx={{ width: "100%", p: 3 }}>
-      {/* Header */}
+      {/* HEADER */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
         <Avatar src={agent.avatar} sx={{ width: 56, height: 56 }} />
         <Box>
@@ -183,53 +305,54 @@ const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamVi
         </Box>
       </Box>
 
-      {/* Tabs with Button Style */}
+      {/* TABS */}
       <Tabs
         value={tab}
-        onChange={(e, v) => setTab(v)}
+        onChange={handleTabChange}
         centered
-        TabIndicatorProps={{ style: { display: "none" } }} // hide underline
+        TabIndicatorProps={{ style: { display: "none" } }}
         sx={{
           mb: 2,
           "& .MuiTab-root": {
             textTransform: "none",
-            borderRadius: "8px",
-            minHeight: 36,
-            px: 2.5,
-            mx: 0.7,
+            borderRadius: 2,
+            px: 3,
+            mx: 0.5,
             fontWeight: 600,
             background: "#f4f6f8",
-            color: "#475467",
             border: "1px solid #e5e7eb",
-            transition: "0.2s",
+            color: "#475467"
           },
-          "& .MuiTab-root.Mui-selected": {
+          "& .Mui-selected": {
             background: "#1976d2",
-            color: "white",
-            borderColor: "#1976d2",
-          },
-          "& .MuiTab-root:hover": {
-            background: "#e8ecf1",
-          },
+            color: "#fff",
+            borderColor: "#1976d2"
+          }
         }}
       >
         <Tab label="Overview" value="overview" />
-        <Tab label="KYC & Bank" value="kyc" onClick={onKYCView} />
-        <Tab label="Team" value="team" onClick={onTeamView} />
+        <Tab label="KYC & Bank" value="kyc" />
+        <Tab label="Team" value="team" />
         <Tab label="Earnings" value="earnings" />
         <Tab label="History" value="history" />
       </Tabs>
 
-      {/* Body */}
+      {/* ---------------- OVERVIEW TAB ---------------- */}
       {tab === "overview" && (
-        <Box>
-          {/* Stats row */}
+        <Box
+          sx={{
+            maxWidth: "1100px",  // ⭐ Wider content
+            width: "100%",
+            mx: "auto"
+          }}
+        >
+          {/* STATS CARDS */}
           <Grid container spacing={2} sx={{ mb: 2 }}>
             {[
               { title: "Team Members", value: "45", bg: "#f2f6ff" },
               { title: "Total BV", value: "12450", bg: "#fff5f8" },
               { title: "Total Earnings", value: "₹1,45,600", bg: "#f3fff4" },
-              { title: "Current Month BV", value: "2340", bg: "#fff7f3" },
+              { title: "Current Month BV", value: "2340", bg: "#fff7f3" }
             ].map((s) => (
               <Grid item xs={6} sm={3} key={s.title}>
                 <Paper sx={{ p: 2, borderRadius: 2, background: s.bg }}>
@@ -240,12 +363,19 @@ const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamVi
             ))}
           </Grid>
 
-          {/* Contact info card */}
-          <Paper sx={{ p: 2, mb: 2, border: "1px solid #dfe8ff", borderRadius: 2 }}>
+          {/* BASIC INFO */}
+          <Paper
+            sx={{
+              p: 2,
+              mb: 2,
+              border: "1px solid #dfe8ff",
+              borderRadius: 2
+            }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <Typography variant="caption">Phone</Typography>
-                <Typography>+91 98765 43210</Typography>
+                <Typography>{agent.phone}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="caption">Join Date</Typography>
@@ -253,7 +383,7 @@ const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamVi
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="caption">Email</Typography>
-                <Typography>rajesh.kumar@email.com</Typography>
+                <Typography>{agent.email}</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Typography variant="caption">Last Active</Typography>
@@ -262,21 +392,59 @@ const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamVi
             </Grid>
           </Paper>
 
-          {/* Package card */}
-          <Paper sx={{ p: 2, mb: 2, border: "1px solid #dfe8ff", borderRadius: 2 }}>
-            <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* PACKAGE INFO */}
+          <Paper
+            sx={{
+              p: 2,
+              mb: 2,
+              border: "1px solid #dfe8ff",
+              borderRadius: 2
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
+            >
               <Box>
-                <Typography sx={{ fontWeight: 600 }}>Package Information</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  Package Information
+                </Typography>
                 <Typography>Silver Package</Typography>
                 <Typography variant="caption">Package Value: ₹5,000</Typography>
               </Box>
-              <Button variant="contained" size="small">Upgrade</Button>
+
+              <Button
+                variant="contained"
+                onClick={onUpgrade}
+                sx={{
+                  backgroundColor: "#22c55e",
+                  "&:hover": { backgroundColor: "#16a34a" },
+                  borderRadius: "6px",
+                  padding: "3px 12px",
+                  minHeight: "28px",
+                  fontSize: "13px",
+                  textTransform: "none"
+                }}
+              >
+                Upgrade
+              </Button>
             </Box>
           </Paper>
 
-          {/* Network position */}
-          <Paper sx={{ p: 2, border: "1px solid #dfe8ff", borderRadius: 2 }}>
-            <Typography sx={{ fontWeight: 600, mb: 1 }}>Network Position</Typography>
+          {/* NETWORK */}
+          <Paper
+            sx={{
+              p: 2,
+              border: "1px solid #dfe8ff",
+              borderRadius: 2
+            }}
+          >
+            <Typography sx={{ fontWeight: 600, mb: 1 }}>
+              Network Position
+            </Typography>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <Paper sx={{ p: 1, textAlign: "center", borderRadius: 1 }}>
@@ -293,18 +461,35 @@ const AgentDetailsPage: React.FC<Props> = ({ agent, onClose, onKYCView, onTeamVi
             </Grid>
           </Paper>
 
-          {/* Footer buttons */}
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
-            <Button variant="outlined" onClick={onClose}>Close</Button>
-            <Button variant="contained" color="error">Suspend</Button>
-            <Button variant="contained">Edit</Button>
+          {/* FOOTER BUTTONS */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 2,
+              mt: 3
+            }}
+          >
+            <Button variant="outlined" onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="contained" color="error">
+              Suspend
+            </Button>
+            <Button variant="contained" onClick={onEditProfile}>
+              Edit
+            </Button>
           </Box>
         </Box>
       )}
 
-      {/* Other tabs */}
-      {tab === "earnings" && <Typography> Earnings content </Typography>}
-      {tab === "history" && <Typography> History content </Typography>}
+      {/* ---------------- EARNINGS TAB ---------------- */}
+      {tab === "earnings" && <EarningPage />}
+
+      {/* ---------------- HISTORY TAB ---------------- */}
+      {tab === "history" && (
+        <HistoryPage agent={agent} onBack={onClose} onTabChange={handleTabChange} onEditProfile={onEditProfile} />
+      )}
     </Box>
   );
 };
