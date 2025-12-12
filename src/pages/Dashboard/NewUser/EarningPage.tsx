@@ -1,134 +1,182 @@
- 
-
 // import React from "react";
 // import {
 //   Box,
-//   Typography,
-//   Grid,
-//   Card,
-//   CardContent,
-//   Button,
-//   Paper,
 //   Avatar,
+//   Typography,
 //   Tabs,
 //   Tab,
+//   Grid,
+//   Paper,
+//   Button
 // } from "@mui/material";
 
 // interface EarningPageProps {
-//   onTabChange?: (index: number) => void;
+//   agent?: any;
+//   onOverview?: () => void;
+//   onKYC?: () => void;
+//   onTeam?: () => void;
+//   onHistory?: () => void;
 //   onClose?: () => void;
 //   onSuspend?: () => void;
 //   onEdit?: () => void;
-//   selectedTab?: number;
-//   agent?: any;
 // }
 
 // const EarningPage: React.FC<EarningPageProps> = ({
-//   onTabChange = () => {},
+//   agent = {},
+//   onOverview = () => {},
+//   onKYC = () => {},
+//   onTeam = () => {},
+//   onHistory = () => {},
 //   onClose = () => {},
 //   onSuspend = () => {},
-//   onEdit = () => {},
-//   selectedTab = 3, // Earnings tab
-//   agent,
+//   onEdit = () => {}
 // }) => {
 //   return (
-//     <Box sx={{ width: "100%", p: 3 }}>
-      
-//       {/* ---------- HEADER ---------- */}
-//       <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-//         <Avatar
-//           src="https://i.pravatar.cc/150?img=32"
-//           sx={{ width: 55, height: 55, mr: 2 }}
-//         />
+//     <Box
+//       sx={{
+//         p: 3,
+//         background: "#fff",
+//         borderRadius: "14px",
+//         width: "720px",
+//         mx: "auto"
+//       }}
+//     >
+//       {/* HEADER */}
+//       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+//         <Avatar src={agent.avatar} sx={{ width: 60, height: 60 }} />
+
 //         <Box>
 //           <Typography sx={{ fontWeight: 700, fontSize: "18px" }}>
-//             {agent?.name || "Rajesh Kumar"}
+//             {agent.name || "Rajesh Kumar"}
 //           </Typography>
 
-//           <Typography sx={{ color: "#777", fontSize: "13px" }}>
-//             {agent?.agentCode || "AGT-1045"} • Joined{" "}
-//             {agent?.joinedDate || "15/8/2024"}
+//           <Typography sx={{ fontSize: "13px", color: "#707070" }}>
+//             {agent.code || "AGT-10456"} • Joined {agent.joinDate || "15 Jun 2023"}
 //           </Typography>
 //         </Box>
 //       </Box>
 
-//       {/* ---------- TABS ---------- */}
+//       {/* TABS */}
 //       <Tabs
-//         value={selectedTab}
-//         onChange={(_, v) => onTabChange(v)}
-//         variant="scrollable"
-//         scrollButtons="auto"
+//         value="earnings"
+//         TabIndicatorProps={{ style: { display: "none" } }}
+//         centered
 //         sx={{
-//           background: "#f7f9fc",
-//           borderRadius: 2,
 //           mb: 3,
-//           "& .Mui-selected": {
-//             background: "#0b5cad",
-//             color: "#fff !important",
+//           "& .MuiTab-root": {
+//             textTransform: "none",
+//             borderRadius: "8px",
+//             minHeight: 36,
+//             px: 3,
+//             mx: 1,
+//             fontWeight: 600,
+//             background: "#F4F6F8",
+//             color: "#5A5A5A",
+//             border: "1px solid #E1E5EB"
 //           },
+//           "& .Mui-selected": {
+//             background: "#1A73E8",
+//             color: "#fff",
+//             borderColor: "#1A73E8"
+//           }
 //         }}
 //       >
-//         <Tab label="Overview" />
-//         <Tab label="KYC & Bank" />
-//         <Tab label="Team" />
-//         <Tab label="Earnings" />
-//         <Tab label="History" />
+//         <Tab label="Overview" value="overview" onClick={onOverview} />
+//         <Tab label="KYC & Bank" value="kyc" onClick={onKYC} />
+//         <Tab label="Team" value="team" onClick={onTeam} />
+//         <Tab label="Earnings" value="earnings" />
+//         <Tab label="History" value="history" onClick={onHistory} />
 //       </Tabs>
 
-//       {/* ---------- EARNINGS SUMMARY ---------- */}
+//       {/* EARNING SUMMARY MAIN OUTER BOX */}
 //       <Paper
 //         sx={{
-//           border: "2px solid skyblue",
-//           borderRadius: 2,
 //           p: 3,
-//           mb: 3,
-//           background: "#fff",
+//           borderRadius: "12px",
+//           border: "2px solid #B3C9F6",
+//           background: "#ffffff",
+//           mb: 3
 //         }}
 //       >
-//         <Typography sx={{ fontWeight: 700, fontSize: "18px", mb: 2 }}>
+//         <Typography
+//           sx={{
+//             fontWeight: 700,
+//             fontSize: "16px",
+//             color: "#1A3A8A",
+//             mb: 2
+//           }}
+//         >
 //           Earnings Summary
 //         </Typography>
 
-//         <Grid container spacing={2}>
-//           {[
-//             { label: "Total Earnings", value: "₹1,45,600" },
-//             { label: "Current Month", value: "₹23,400" },
-//             { label: "Last Payout", value: "₹12,450" },
-//             { label: "Pending Payout", value: "₹8,300" },
-//           ].map((item) => (
-//             <Grid item xs={6} key={item.label}>
-//               <Card sx={{ background: "#f5f5f5", borderRadius: 2 }}>
-//                 <CardContent>
-//                   <Typography fontWeight={600}>{item.label}</Typography>
-//                   <Typography sx={{ mt: 1, fontWeight: 700 }}>
-//                     {item.value}
-//                   </Typography>
-//                 </CardContent>
-//               </Card>
+//         {/* 2 × 2 GRID AS PER YOUR DESIGN */}
+//         <Grid container spacing={3}>
+//           {[ 
+//             { title: "Total Earnings", value: "₹1,45,600" },
+//             { title: "Current Month", value: "₹23,400" },
+//             { title: "Last Payout", value: "₹12,450" },
+//             { title: "Pending Payout", value: "₹8,900" }
+//           ].map((item, index) => (
+//             <Grid item xs={6} key={index}>
+//               <Paper
+//                 sx={{
+//                   p: 2.5,
+//                   borderRadius: "10px",
+//                   background: "#F5F8FC",
+//                   border: "1px solid #E0E7F5",
+//                   height: "100px",
+//                   display: "flex",
+//                   flexDirection: "column",
+//                   justifyContent: "center"
+//                 }}
+//               >
+//                 <Typography
+//                   sx={{
+//                     fontSize: "14px",
+//                     color: "#1A3A8A",
+//                     fontWeight: 600,
+//                     mb: 0.5
+//                   }}
+//                 >
+//                   {item.title}
+//                 </Typography>
+
+//                 <Typography sx={{ fontWeight: 700, fontSize: "16px" }}>
+//                   {item.value}
+//                 </Typography>
+//               </Paper>
 //             </Grid>
 //           ))}
 //         </Grid>
 //       </Paper>
 
-//       {/* ---------- FOOTER BUTTONS ---------- */}
-//       <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
-        
-//         <Button variant="outlined" sx={{ width: 120 }} onClick={onClose}>
+//       {/* FOOTER BUTTONS */}
+//       <Box sx={{ display: "flex", justifyContent: "center", gap: 2 }}>
+//         <Button
+//           variant="outlined"
+//           sx={{ width: 120, textTransform: "none" }}
+//           onClick={onClose}
+//         >
 //           Close
 //         </Button>
 
 //         <Button
 //           variant="contained"
 //           color="error"
-//           sx={{ width: 120 }}
-//           onClick={onSuspend}   // 🔥 THIS will open SuspendPage.tsx
+//           sx={{ width: 120, textTransform: "none" }}
+//           onClick={onSuspend}
 //         >
 //           Suspend
 //         </Button>
 
 //         <Button
 //           variant="contained"
-//           sx={{ width: 120 }}
+//           sx={{
+//             width: 120,
+//             textTransform: "none",
+//             background: "#1A73E8",
+//             "&:hover": { background: "#1558B3" }
+//           }}
 //           onClick={onEdit}
 //         >
 //           Edit
@@ -144,145 +192,201 @@
 
 
 
+
+
+
 import React from "react";
 import {
   Box,
-  Typography,
-  Grid,
-  Card,
-  CardContent,
-  Button,
-  Paper,
   Avatar,
+  Typography,
   Tabs,
   Tab,
+  Grid,
+  Paper,
+  Button,
+  Card,
+  CardContent
 } from "@mui/material";
 
 interface EarningPageProps {
-  onTabChange?: (index: number) => void;
+  agent?: any;
+  onOverview?: () => void;
+  onKYC?: () => void;
+  onTeam?: () => void;
+  onHistory?: () => void;
   onClose?: () => void;
   onSuspend?: () => void;
   onEdit?: () => void;
-  selectedTab?: number;
-  agent?: any;
 }
 
 const EarningPage: React.FC<EarningPageProps> = ({
-  onTabChange = () => {},
+  agent = {},
+  onOverview = () => {},
+  onKYC = () => {},
+  onTeam = () => {},
+  onHistory = () => {},
   onClose = () => {},
   onSuspend = () => {},
-  onEdit = () => {},
-  selectedTab = 3,
-  agent,
+  onEdit = () => {}
 }) => {
   return (
-    <Box sx={{ width: "100%", p: 3 }}>
+    <Box
+      sx={{
+        width: 680,
+        mx: "auto",
+        mt: 2,
+        background: "#fff",
+        borderRadius: "12px",
+        p: 3,
+        boxShadow: "0 4px 25px rgba(0,0,0,0.15)"
+      }}
+    >
       {/* HEADER */}
-      <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-        <Avatar
-          src={agent?.avatar || "https://i.pravatar.cc/150?img=32"}
-          sx={{ width: 56, height: 56, mr: 2 }}
-        />
-
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
+        <Avatar src={agent.avatar} sx={{ width: 50, height: 50 }} />
         <Box>
-          <Typography sx={{ fontWeight: 700, fontSize: "18px" }}>
-            {agent?.name || "Rajesh Kumar"}
+          <Typography sx={{ fontWeight: 700, fontSize: "16px" }}>
+            {agent.name || "Rajesh Kumar"}
           </Typography>
-
-          <Typography sx={{ color: "#6b7280", fontSize: "13px" }}>
-            {agent?.agentCode || "AGT-1045"} • Joined{" "}
-            {agent?.joinedDate || "15/8/2024"}
+          <Typography variant="body2" color="text.secondary">
+            {agent.code || "AGT-10456"} • Joined {agent.joinDate || "15/02/2024"}
           </Typography>
         </Box>
       </Box>
 
-      {/* TABS — MATCHING STYLE */}
+      {/* TABS */}
       <Tabs
-        value={selectedTab}
-        onChange={(_, v) => onTabChange(v)}
-        scrollButtons="auto"
-        variant="scrollable"
+        value="earnings"
+        centered
         TabIndicatorProps={{ style: { display: "none" } }}
         sx={{
           mb: 3,
           "& .MuiTab-root": {
             textTransform: "none",
-            borderRadius: "12px",
-            minHeight: 38,
-            px: 3,
-            mx: 1,
             fontWeight: 600,
-            background: "#f8f9fb",
-            color: "#4b5563",
-            border: "1px solid #e5e7eb",
-            transition: "0.25s",
+            px: 3,
+            mx: 0.5,
+            borderRadius: "8px",
+            background: "#f4f6f8",
+            color: "#475467",
+            border: "1px solid #e5e7eb"
           },
-          "& .MuiTab-root.Mui-selected": {
-            background: "#0b5cad",
+          "& .Mui-selected": {
+            background: "#1976d2",
             color: "#fff",
-            borderColor: "#0b5cad",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-          },
-          "& .MuiTab-root:hover": {
-            background: "#eef2f7",
-          },
+            borderColor: "#1976d2"
+          }
         }}
       >
-        <Tab label="Overview" value={0} />
-        <Tab label="KYC & Bank" value={1} />
-        <Tab label="Team" value={2} />
-        <Tab label="Earnings" value={3} />
-        <Tab label="History" value={4} />
+        <Tab label="Overview" value="overview" onClick={onOverview} />
+        <Tab label="KYC & Bank" value="kyc" onClick={onKYC} />
+        <Tab label="Team" value="team" onClick={onTeam} />
+        <Tab label="Earnings" value="earnings" />
+        <Tab label="History" value="history" onClick={onHistory} />
       </Tabs>
+{/* OUTER RECTANGULAR BOX WITH BLUE BORDER ONLY */}
+<Box
+  sx={{
+    border: "2px solid #1A73E8",
+    borderRadius: "12px",
+    p: 3,
+    mt: 2,
+    background: "#ffffff"
+  }}
+>
+  {/* Heading */}
+  <Typography
+    sx={{
+      fontWeight: 700,
+      fontSize: "18px",
+      color: "#1A73E8",
+      mb: 2
+    }}
+  >
+    Earnings Summary
+  </Typography>
 
-      {/* EARNINGS SUMMARY */}
-      <Paper
-        sx={{
-          border: "1.5px solid #c3d9ff",
-          borderRadius: 2,
-          p: 3,
-          mb: 3,
-          background: "#fff",
-        }}
-      >
-        <Typography sx={{ fontWeight: 700, fontSize: "18px", mb: 2 }}>
-          Earnings Summary
-        </Typography>
+  {/* 2×2 GRID */}
+  <Box
+    display="grid"
+    gridTemplateColumns="repeat(2, 1fr)"
+    gap={2}
+  >
+    {/* A */}
+    <Box
+      p={2}
+      borderRadius={2}
+      bgcolor="#f5f5f5"
+      boxShadow={1}
+    >
+      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
+        Total Earnings
+      </Typography>
+      <Typography variant="h6" fontWeight="bold">
+        ₹1,45,600
+      </Typography>
+    </Box>
 
-        <Grid container spacing={2}>
-          {[
-            { label: "Total Earnings", value: "₹1,45,600" },
-            { label: "Current Month", value: "₹23,400" },
-            { label: "Last Payout", value: "₹12,450" },
-            { label: "Pending Payout", value: "₹8,300" },
-          ].map((item) => (
-            <Grid item xs={6} sm={6} md={3} key={item.label}>
-              <Card
-                sx={{
-                  background: "#f5f6fa",
-                  borderRadius: 2,
-                  height: "100%",
-                  border: "1px solid #e2e8f0",
-                }}
-              >
-                <CardContent sx={{ textAlign: "center" }}>
-                  <Typography fontWeight={600} sx={{ color: "#475569" }}>
-                    {item.label}
-                  </Typography>
-                  <Typography
-                    sx={{ mt: 1, fontWeight: 700, fontSize: "18px" }}
-                  >
-                    {item.value}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Paper>
+    {/* B */}
+    <Box
+      p={2}
+      borderRadius={2}
+      bgcolor="#f5f5f5"
+      boxShadow={1}
+    >
+      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
+        Current Month
+      </Typography>
+      <Typography variant="h6" fontWeight="bold">
+        ₹23,400
+      </Typography>
+    </Box>
+
+    {/* C */}
+    <Box
+      p={2}
+      borderRadius={2}
+      bgcolor="#f5f5f5"
+      boxShadow={1}
+    >
+      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
+        Last Payout
+      </Typography>
+      <Typography variant="h6" fontWeight="bold">
+        ₹12,450
+      </Typography>
+    </Box>
+
+    {/* D */}
+    <Box
+      p={2}
+      borderRadius={2}
+      bgcolor="#f5f5f5"
+      boxShadow={1}
+    >
+      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
+        Pending Payout
+      </Typography>
+      <Typography variant="h6" fontWeight="bold">
+        ₹8,300
+      </Typography>
+    </Box>
+  </Box>
+</Box>
+
+
+
 
       {/* FOOTER BUTTONS */}
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 2,
+          mt: 3
+        }}
+      >
         <Button variant="outlined" sx={{ width: 120 }} onClick={onClose}>
           Close
         </Button>
@@ -308,3 +412,8 @@ export default EarningPage;
 
 
 
+ 
+
+
+
+ 

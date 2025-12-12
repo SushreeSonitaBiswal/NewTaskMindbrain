@@ -37,8 +37,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Catalog from "./pages/Dashboard/Catalog";
 import Login from "./pages/Login";
 import MainApp from "./pages/Dashboard/NewUser/MainApp";
-import EditAgentProfile from "./pages/Dashboard/NewUser/EditAgentProfile";
-
+ 
 function App() {
   return (
     <BrowserRouter>
@@ -52,8 +51,7 @@ function App() {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/users" element={<MainApp />} />
 
-          {/* ✅ Add this so navigation works */}
-           
+            
         </Route>
       </Routes>
     </BrowserRouter>
