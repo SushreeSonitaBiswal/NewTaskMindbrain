@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   Box,
@@ -16,6 +17,9 @@ interface Props {
   onTeamView: () => void;
   onEarningsView: () => void;
   onHistoryView: () => void;
+
+  // 🔥 Added navigation function to open VerificationPage.tsx
+  onVerificationView: () => void;
 }
 
 const KYCViewPage: React.FC<Props> = ({
@@ -23,19 +27,19 @@ const KYCViewPage: React.FC<Props> = ({
   onBack,
   onTeamView,
   onEarningsView,
-  onHistoryView
+  onHistoryView,
+  onVerificationView
 }) => {
   return (
     <Box
       sx={{
         p: 2,
-        height: "95vh", // 🔥 Increased modal height
+        height: "95vh",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between" // 🔥 Footer always at bottom
+        justifyContent: "space-between"
       }}
     >
-
       {/* ===================== MAIN CONTENT ===================== */}
       <Box sx={{ flexGrow: 1 }}>
 
@@ -98,9 +102,11 @@ const KYCViewPage: React.FC<Props> = ({
               KYC Verification
             </Typography>
 
-            <Box
+            {/* 🔥 Verified button --> Redirect to VerificationPage.tsx */}
+            <Button
+              variant="outlined"
               sx={{
-                border: "2px solid #2ECC71",
+                borderColor: "#2ECC71",
                 color: "#2ECC71",
                 fontWeight: 600,
                 borderRadius: "8px",
@@ -108,20 +114,25 @@ const KYCViewPage: React.FC<Props> = ({
                 py: "2px",
                 fontSize: "13px",
               }}
+              onClick={onVerificationView}
             >
               Verified
-            </Box>
+            </Button>
           </Box>
 
           <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={1.5}>
             <Box p={2} borderRadius={2} bgcolor="#f5f5f5" boxShadow={1}>
               <Typography variant="body2">Aadhaar Number</Typography>
-              <Typography variant="h6" fontWeight="bold" fontSize="16px">XXXX XXXX 4521</Typography>
+              <Typography variant="h6" fontWeight="bold" fontSize="16px">
+                XXXX XXXX 4521
+              </Typography>
             </Box>
 
             <Box p={2} borderRadius={2} bgcolor="#f5f5f5" boxShadow={1}>
               <Typography variant="body2">PAN Number</Typography>
-              <Typography variant="h6" fontWeight="bold" fontSize="16px">ABCDE1234F</Typography>
+              <Typography variant="h6" fontWeight="bold" fontSize="16px">
+                ABCDE1234F
+              </Typography>
             </Box>
           </Box>
         </Box>
@@ -141,9 +152,10 @@ const KYCViewPage: React.FC<Props> = ({
               Bank Account Verification
             </Typography>
 
-            <Box
+             <Button
+              variant="outlined"
               sx={{
-                border: "2px solid #2ECC71",
+                borderColor: "#2ECC71",
                 color: "#2ECC71",
                 fontWeight: 600,
                 borderRadius: "8px",
@@ -151,9 +163,10 @@ const KYCViewPage: React.FC<Props> = ({
                 py: "2px",
                 fontSize: "13px",
               }}
+              onClick={onVerificationView}
             >
               Verified
-            </Box>
+            </Button>
           </Box>
 
           <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={1.5}>
@@ -190,18 +203,10 @@ const KYCViewPage: React.FC<Props> = ({
             Verified on 15/8/2024
           </Typography>
         </Box>
-
       </Box>
 
-      {/* ===================== FIXED FOOTER ===================== */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          gap: 2,
-          mt: 1,
-        }}
-      >
+      {/* ===================== FOOTER ===================== */}
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 1 }}>
         <Button variant="outlined" onClick={onBack}>Close</Button>
         <Button variant="contained" color="error">Suspend</Button>
         <Button variant="contained">Edit</Button>
@@ -212,7 +217,5 @@ const KYCViewPage: React.FC<Props> = ({
 };
 
 export default KYCViewPage;
-
-
 
  
