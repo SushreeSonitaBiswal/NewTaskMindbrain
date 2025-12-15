@@ -273,7 +273,7 @@ const AgentDetailsPage: React.FC<Props> = ({
   sx={{
     backgroundColor: "#6ccf5f",
     "&:hover": { backgroundColor: "#55b84a" },
-    borderRadius: "6px",     // << SMALL CORNER RADIUS
+    borderRadius: "6px",      
     padding: "4px 14px",
     minHeight: "28px",
     textTransform: "none",

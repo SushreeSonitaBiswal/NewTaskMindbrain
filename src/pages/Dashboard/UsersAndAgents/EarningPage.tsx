@@ -195,26 +195,19 @@
 
 
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Avatar,
   Typography,
   Tabs,
   Tab,
-  Grid,
-  Paper,
   Button,
-  Card,
-  CardContent
 } from "@mui/material";
 
 interface EarningPageProps {
   agent?: any;
-  onOverview?: () => void;
-  onKYC?: () => void;
-  onTeam?: () => void;
-  onHistory?: () => void;
+  onTabChange: (tab: number) => void;
   onClose?: () => void;
   onSuspend?: () => void;
   onEdit?: () => void;
@@ -222,14 +215,18 @@ interface EarningPageProps {
 
 const EarningPage: React.FC<EarningPageProps> = ({
   agent = {},
-  onOverview = () => {},
-  onKYC = () => {},
-  onTeam = () => {},
-  onHistory = () => {},
+  onTabChange,
   onClose = () => {},
   onSuspend = () => {},
-  onEdit = () => {}
+  onEdit = () => {},
 }) => {
+  const [tab, setTab] = useState(3); // Earnings index
+
+  const handleTabChange = (_: any, newValue: number) => {
+    setTab(newValue);
+    onTabChange(newValue); // 🔥 THIS switches dialog
+  };
+
   return (
     <Box
       sx={{
@@ -239,25 +236,27 @@ const EarningPage: React.FC<EarningPageProps> = ({
         background: "#fff",
         borderRadius: "12px",
         p: 3,
-        boxShadow: "0 4px 25px rgba(0,0,0,0.15)"
+        boxShadow: "0 4px 25px rgba(0,0,0,0.15)",
       }}
     >
       {/* HEADER */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
         <Avatar src={agent.avatar} sx={{ width: 50, height: 50 }} />
         <Box>
-          <Typography sx={{ fontWeight: 700, fontSize: "16px" }}>
+          <Typography fontWeight={700}>
             {agent.name || "Rajesh Kumar"}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {agent.code || "AGT-10456"} • Joined {agent.joinDate || "15/02/2024"}
+            {agent.code || "AGT-10456"} • Joined{" "}
+            {agent.joinDate || "15/02/2024"}
           </Typography>
         </Box>
       </Box>
 
-      {/* TABS */}
+      {/* ✅ WORKING TABS */}
       <Tabs
-        value="earnings"
+        value={tab}
+        onChange={handleTabChange}
         centered
         TabIndicatorProps={{ style: { display: "none" } }}
         sx={{
@@ -270,137 +269,59 @@ const EarningPage: React.FC<EarningPageProps> = ({
             borderRadius: "8px",
             background: "#f4f6f8",
             color: "#475467",
-            border: "1px solid #e5e7eb"
+            border: "1px solid #e5e7eb",
           },
           "& .Mui-selected": {
             background: "#1976d2",
             color: "#fff",
-            borderColor: "#1976d2"
-          }
+            borderColor: "#1976d2",
+          },
         }}
       >
-        <Tab label="Overview" value="overview" onClick={onOverview} />
-        <Tab label="KYC & Bank" value="kyc" onClick={onKYC} />
-        <Tab label="Team" value="team" onClick={onTeam} />
-        <Tab label="Earnings" value="earnings" />
-        <Tab label="History" value="history" onClick={onHistory} />
+        <Tab label="Overview" />
+        <Tab label="KYC & Bank" />
+        <Tab label="Team" />
+        <Tab label="Earnings" />
+        <Tab label="History" />
       </Tabs>
-{/* OUTER RECTANGULAR BOX WITH BLUE BORDER ONLY */}
-<Box
-  sx={{
-    border: "2px solid #1A73E8",
-    borderRadius: "12px",
-    p: 3,
-    mt: 2,
-    background: "#ffffff"
-  }}
->
-  {/* Heading */}
-  <Typography
-    sx={{
-      fontWeight: 700,
-      fontSize: "18px",
-      color: "#1A73E8",
-      mb: 2
-    }}
-  >
-    Earnings Summary
-  </Typography>
 
-  {/* 2×2 GRID */}
-  <Box
-    display="grid"
-    gridTemplateColumns="repeat(2, 1fr)"
-    gap={2}
-  >
-    {/* A */}
-    <Box
-      p={2}
-      borderRadius={2}
-      bgcolor="#f5f5f5"
-      boxShadow={1}
-    >
-      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
-        Total Earnings
-      </Typography>
-      <Typography variant="h6" fontWeight="bold">
-        ₹1,45,600
-      </Typography>
-    </Box>
-
-    {/* B */}
-    <Box
-      p={2}
-      borderRadius={2}
-      bgcolor="#f5f5f5"
-      boxShadow={1}
-    >
-      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
-        Current Month
-      </Typography>
-      <Typography variant="h6" fontWeight="bold">
-        ₹23,400
-      </Typography>
-    </Box>
-
-    {/* C */}
-    <Box
-      p={2}
-      borderRadius={2}
-      bgcolor="#f5f5f5"
-      boxShadow={1}
-    >
-      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
-        Last Payout
-      </Typography>
-      <Typography variant="h6" fontWeight="bold">
-        ₹12,450
-      </Typography>
-    </Box>
-
-    {/* D */}
-    <Box
-      p={2}
-      borderRadius={2}
-      bgcolor="#f5f5f5"
-      boxShadow={1}
-    >
-      <Typography variant="body2" sx={{ color: "#1A1A1A" }}>
-        Pending Payout
-      </Typography>
-      <Typography variant="h6" fontWeight="bold">
-        ₹8,300
-      </Typography>
-    </Box>
-  </Box>
-</Box>
-
-
-
-
-      {/* FOOTER BUTTONS */}
+      {/* CONTENT */}
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          gap: 2,
-          mt: 3
+          border: "2px solid #1A73E8",
+          borderRadius: "12px",
+          p: 3,
+          background: "#fff",
         }}
       >
-        <Button variant="outlined" sx={{ width: 120 }} onClick={onClose}>
+        <Typography fontWeight={700} color="#1A73E8" mb={2}>
+          Earnings Summary
+        </Typography>
+
+        <Box display="grid" gridTemplateColumns="repeat(2,1fr)" gap={2}>
+          {[
+            ["Total Earnings", "₹1,45,600"],
+            ["Current Month", "₹23,400"],
+            ["Last Payout", "₹12,450"],
+            ["Pending Payout", "₹8,300"],
+          ].map(([label, value]) => (
+            <Box key={label} p={2} borderRadius={2} bgcolor="#f5f5f5">
+              <Typography variant="body2">{label}</Typography>
+              <Typography fontWeight="bold">{value}</Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
+
+      {/* FOOTER */}
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 3 }}>
+        <Button variant="outlined" onClick={onClose}>
           Close
         </Button>
-
-        <Button
-          variant="contained"
-          color="error"
-          sx={{ width: 120 }}
-          onClick={onSuspend}
-        >
+        <Button variant="contained" color="error" onClick={onSuspend}>
           Suspend
         </Button>
-
-        <Button variant="contained" sx={{ width: 120 }} onClick={onEdit}>
+        <Button variant="contained" onClick={onEdit}>
           Edit
         </Button>
       </Box>
@@ -409,11 +330,3 @@ const EarningPage: React.FC<EarningPageProps> = ({
 };
 
 export default EarningPage;
-
-
-
- 
-
-
-
- 

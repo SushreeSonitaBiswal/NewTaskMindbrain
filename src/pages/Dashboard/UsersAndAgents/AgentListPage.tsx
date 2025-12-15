@@ -280,7 +280,8 @@ const AgentListPage: React.FC<Props> = ({ onViewDetails }) => {
 
                 <TableCell>
                   <IconButton onClick={() => onViewDetails(row)}>
-                    <VisibilityIcon />
+                  <VisibilityIcon sx={{ color: "#0d47a1", fontSize: 22 }} />
+
                   </IconButton>
                 </TableCell>
               </TableRow>

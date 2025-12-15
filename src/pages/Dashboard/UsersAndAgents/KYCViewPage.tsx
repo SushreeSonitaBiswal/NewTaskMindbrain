@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Avatar,
@@ -17,8 +16,6 @@ interface Props {
   onTeamView: () => void;
   onEarningsView: () => void;
   onHistoryView: () => void;
-
-  // 🔥 Added navigation function to open VerificationPage.tsx
   onVerificationView: () => void;
 }
 
@@ -30,6 +27,20 @@ const KYCViewPage: React.FC<Props> = ({
   onHistoryView,
   onVerificationView
 }) => {
+
+  // ⭐ FIXED: Default tab set to "overview" so all tabs will work properly
+  const [tab, setTab] = useState("overview");
+
+  // ⭐ Change tab + trigger respective popup
+  const handleChange = (_: any, newValue: string) => {
+    setTab(newValue);
+
+    if (newValue === "overview") onBack();
+    if (newValue === "team") onTeamView();
+    if (newValue === "earnings") onEarningsView();
+    if (newValue === "history") onHistoryView();
+  };
+
   return (
     <Box
       sx={{
@@ -40,9 +51,8 @@ const KYCViewPage: React.FC<Props> = ({
         justifyContent: "space-between"
       }}
     >
-      {/* ===================== MAIN CONTENT ===================== */}
       <Box sx={{ flexGrow: 1 }}>
-
+        
         {/* Header */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
           <Avatar src={agent.avatar} sx={{ width: 56, height: 56 }} />
@@ -54,9 +64,10 @@ const KYCViewPage: React.FC<Props> = ({
           </Box>
         </Box>
 
-        {/* Tabs */}
+        {/* ⭐ Tabs Now Fully Working */}
         <Tabs
-          value="kyc"
+          value={tab}
+          onChange={handleChange}
           TabIndicatorProps={{ style: { display: "none" } }}
           centered
           sx={{
@@ -80,11 +91,11 @@ const KYCViewPage: React.FC<Props> = ({
             },
           }}
         >
-          <Tab label="Overview" value="overview" onClick={onBack} />
+          <Tab label="Overview" value="overview" />
           <Tab label="KYC & Bank" value="kyc" />
-          <Tab label="Team" value="team" onClick={onTeamView} />
-          <Tab label="Earnings" value="earnings" onClick={onEarningsView} />
-          <Tab label="History" value="history" onClick={onHistoryView} />
+          <Tab label="Team" value="team" />
+          <Tab label="Earnings" value="earnings" />
+          <Tab label="History" value="history" />
         </Tabs>
 
         {/* ===================== KYC SECTION ===================== */}
@@ -102,7 +113,6 @@ const KYCViewPage: React.FC<Props> = ({
               KYC Verification
             </Typography>
 
-            {/* 🔥 Verified button --> Redirect to VerificationPage.tsx */}
             <Button
               variant="outlined"
               sx={{
@@ -152,7 +162,7 @@ const KYCViewPage: React.FC<Props> = ({
               Bank Account Verification
             </Typography>
 
-             <Button
+            <Button
               variant="outlined"
               sx={{
                 borderColor: "#2ECC71",
@@ -205,17 +215,14 @@ const KYCViewPage: React.FC<Props> = ({
         </Box>
       </Box>
 
-      {/* ===================== FOOTER ===================== */}
+      {/* Footer */}
       <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 1 }}>
         <Button variant="outlined" onClick={onBack}>Close</Button>
         <Button variant="contained" color="error">Suspend</Button>
         <Button variant="contained">Edit</Button>
       </Box>
-
     </Box>
   );
 };
 
 export default KYCViewPage;
-
- 

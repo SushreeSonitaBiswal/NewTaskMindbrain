@@ -1,5 +1,4 @@
- 
-// import { useState } from "react";
+//  import { useState } from "react";
 // import { Box } from "@mui/material";
 
 // import AgentListPage from "./AgentListPage";
@@ -12,6 +11,7 @@
 // import SuspendPage from "./SuspendPage";
 // import UpgradePackagePage from "./UpgradePackagePage";
 // import UpgradeSummaryPage from "./UpgradeSummaryPage";
+// import VerificationPage from "./VerificationPage";
 
 // import DialogPopup from "./DialogPopup";
 // import type { Agent } from "./types";
@@ -26,14 +26,15 @@
 //   | "editProfile"
 //   | "suspend"
 //   | "upgrade"
-//   | "upgradeSummary";
+//   | "upgradeSummary"
+//   | "verification";
 
 // const MainApp = () => {
-//   const [selectedAgent, setSelectedAgent] = useState(null);
-//   const [popupPage, setPopupPage] = useState("none");
+//   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+//   const [popupPage, setPopupPage] = useState<PopupPage>("none");
 //   const [selectedUpgrade, setSelectedUpgrade] = useState("");
 
-//   const openOverview = (agent) => {
+//   const openOverview = (agent: Agent) => {
 //     setSelectedAgent(agent);
 //     setPopupPage("overview");
 //   };
@@ -46,11 +47,11 @@
 
 //   return (
 //     <Box sx={{ p: 3 }}>
-      
+
 //       {/* AGENT LIST */}
 //       <AgentListPage onViewDetails={openOverview} />
 
-//       {/* OVERVIEW POPUP */}
+//       {/* ====================== OVERVIEW POPUP ====================== */}
 //       <DialogPopup open={popupPage === "overview"} onClose={closeAll}>
 //         {selectedAgent && (
 //           <AgentDetailsPage
@@ -66,17 +67,25 @@
 //         )}
 //       </DialogPopup>
 
-//       {/* KYC POPUP */}
+//       {/* ====================== KYC POPUP ====================== */}
 //       <DialogPopup open={popupPage === "kyc"} onClose={closeAll}>
 //         {selectedAgent && (
 //           <KYCViewPage
 //             agent={selectedAgent}
 //             onBack={() => setPopupPage("overview")}
+
+//             // ⭐ Add Missing Tab Redirects
+//             onTeamView={() => setPopupPage("team")}
+//             onEarningsView={() => setPopupPage("earnings")}
+//             onHistoryView={() => setPopupPage("history")}
+
+//             // ⭐ Verified Button
+//             onVerificationView={() => setPopupPage("verification")}
 //           />
 //         )}
 //       </DialogPopup>
 
-//       {/* TEAM POPUP */}
+//       {/* ====================== TEAM POPUP ====================== */}
 //       <DialogPopup open={popupPage === "team"} onClose={closeAll}>
 //         {selectedAgent && (
 //           <TeamViewPage
@@ -86,7 +95,7 @@
 //         )}
 //       </DialogPopup>
 
-//       {/* EARNINGS POPUP */}
+//       {/* ====================== EARNINGS POPUP ====================== */}
 //       <DialogPopup open={popupPage === "earnings"} onClose={closeAll}>
 //         <EarningPage
 //           selectedTab={3}
@@ -105,7 +114,7 @@
 //         />
 //       </DialogPopup>
 
-//       {/* HISTORY POPUP */}
+//       {/* ====================== HISTORY POPUP ====================== */}
 //       <DialogPopup open={popupPage === "history"} onClose={closeAll}>
 //         {selectedAgent && (
 //           <HistoryPage
@@ -123,7 +132,7 @@
 //         )}
 //       </DialogPopup>
 
-//       {/* EDIT PROFILE */}
+//       {/* ====================== EDIT PROFILE ====================== */}
 //       <DialogPopup open={popupPage === "editProfile"} onClose={closeAll}>
 //         <EditAgentProfile
 //           agent={selectedAgent}
@@ -131,7 +140,7 @@
 //         />
 //       </DialogPopup>
 
-//       {/* SUSPEND POPUP */}
+//       {/* ====================== SUSPEND PAGE ====================== */}
 //       <DialogPopup open={popupPage === "suspend"} onClose={closeAll}>
 //         <SuspendPage
 //           agent={selectedAgent}
@@ -139,7 +148,7 @@
 //         />
 //       </DialogPopup>
 
-//       {/* UPGRADE PACKAGE */}
+//       {/* ====================== UPGRADE PACKAGE ====================== */}
 //       <DialogPopup open={popupPage === "upgrade"} onClose={closeAll}>
 //         <UpgradePackagePage
 //           agent={selectedAgent}
@@ -151,11 +160,19 @@
 //         />
 //       </DialogPopup>
 
-//       {/* UPGRADE SUMMARY */}
+//       {/* ====================== UPGRADE SUMMARY ====================== */}
 //       <DialogPopup open={popupPage === "upgradeSummary"} onClose={closeAll}>
 //         <UpgradeSummaryPage
-//           packageName={selectedUpgrade}   // ✔ Correct prop name
+//           packageName={selectedUpgrade}
 //           onFinish={() => setPopupPage("overview")}
+//         />
+//       </DialogPopup>
+
+//       {/* ====================== VERIFICATION POPUP ====================== */}
+//       <DialogPopup open={popupPage === "verification"} onClose={closeAll}>
+//         <VerificationPage
+//           agent={selectedAgent}
+//           onBack={() => setPopupPage("kyc")}
 //         />
 //       </DialogPopup>
 
@@ -164,6 +181,11 @@
 // };
 
 // export default MainApp;
+
+
+ 
+ 
+
 
 
 import { useState } from "react";
@@ -179,8 +201,7 @@ import EditAgentProfile from "./EditAgentProfile";
 import SuspendPage from "./SuspendPage";
 import UpgradePackagePage from "./UpgradePackagePage";
 import UpgradeSummaryPage from "./UpgradeSummaryPage";
-
-import VerificationPage from "./VerificationPage";   // 🔥 Add this
+import VerificationPage from "./VerificationPage";
 
 import DialogPopup from "./DialogPopup";
 import type { Agent } from "./types";
@@ -196,13 +217,14 @@ type PopupPage =
   | "suspend"
   | "upgrade"
   | "upgradeSummary"
-  | "verification";   // 🔥 New popup
+  | "verification";
 
 const MainApp = () => {
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [popupPage, setPopupPage] = useState<PopupPage>("none");
   const [selectedUpgrade, setSelectedUpgrade] = useState("");
 
+  /* ===================== OPEN / CLOSE ===================== */
   const openOverview = (agent: Agent) => {
     setSelectedAgent(agent);
     setPopupPage("overview");
@@ -214,13 +236,23 @@ const MainApp = () => {
     setSelectedUpgrade("");
   };
 
+  /* ===================== TAB HANDLER (SINGLE SOURCE) ===================== */
+  const handleTabChange = (tab: number) => {
+    if (tab === 0) setPopupPage("overview");
+    if (tab === 1) setPopupPage("kyc");
+    if (tab === 2) setPopupPage("team");
+    if (tab === 3) setPopupPage("earnings");
+    if (tab === 4) setPopupPage("history");
+  };
+
   return (
     <Box sx={{ p: 3 }}>
-      
-      {/* AGENT LIST */}
-      <AgentListPage onViewDetails={openOverview} />
+      {/* ================= AGENT LIST ================= */}
+      {popupPage === "none" && (
+        <AgentListPage onViewDetails={openOverview} />
+      )}
 
-      {/* OVERVIEW POPUP */}
+      {/* ================= OVERVIEW ================= */}
       <DialogPopup open={popupPage === "overview"} onClose={closeAll}>
         {selectedAgent && (
           <AgentDetailsPage
@@ -236,95 +268,93 @@ const MainApp = () => {
         )}
       </DialogPopup>
 
-      {/* KYC POPUP */}
+      {/* ================= KYC ================= */}
       <DialogPopup open={popupPage === "kyc"} onClose={closeAll}>
         {selectedAgent && (
           <KYCViewPage
             agent={selectedAgent}
             onBack={() => setPopupPage("overview")}
-
-            // 🔥 When clicking "Verified" → open Verification Page
+            onTeamView={() => setPopupPage("team")}
+            onEarningsView={() => setPopupPage("earnings")}
+            onHistoryView={() => setPopupPage("history")}
             onVerificationView={() => setPopupPage("verification")}
           />
         )}
       </DialogPopup>
 
-      {/* TEAM POPUP */}
+      {/* ================= TEAM ================= */}
       <DialogPopup open={popupPage === "team"} onClose={closeAll}>
         {selectedAgent && (
           <TeamViewPage
             agent={selectedAgent}
             onBack={() => setPopupPage("overview")}
+            onTabChange={handleTabChange}
           />
         )}
       </DialogPopup>
 
-      {/* EARNINGS POPUP */}
+      {/* ================= EARNINGS ================= */}
       <DialogPopup open={popupPage === "earnings"} onClose={closeAll}>
-        <EarningPage
-          selectedTab={3}
-          agent={selectedAgent}
-          onClose={() => setPopupPage("overview")}
-          onEdit={() => setPopupPage("editProfile")}
-          onSuspend={() => setPopupPage("suspend")}
-          onUpgrade={() => setPopupPage("upgrade")}
-          onTabChange={(tab) => {
-            if (tab === 0) setPopupPage("overview");
-            if (tab === 1) setPopupPage("kyc");
-            if (tab === 2) setPopupPage("team");
-            if (tab === 3) setPopupPage("earnings");
-            if (tab === 4) setPopupPage("history");
-          }}
-        />
+        {selectedAgent && (
+          <EarningPage
+            selectedTab={3}
+            agent={selectedAgent}
+            onClose={() => setPopupPage("overview")}
+            onEdit={() => setPopupPage("editProfile")}
+            onSuspend={() => setPopupPage("suspend")}
+            onUpgrade={() => setPopupPage("upgrade")}
+            onTabChange={handleTabChange}
+          />
+        )}
       </DialogPopup>
 
-      {/* HISTORY POPUP */}
+      {/* ================= HISTORY ================= */}
       <DialogPopup open={popupPage === "history"} onClose={closeAll}>
         {selectedAgent && (
           <HistoryPage
             agent={selectedAgent}
             onBack={() => setPopupPage("overview")}
             onEditProfile={() => setPopupPage("editProfile")}
-            onTabChange={(tab) => {
-              if (tab === 0) setPopupPage("overview");
-              if (tab === 1) setPopupPage("kyc");
-              if (tab === 2) setPopupPage("team");
-              if (tab === 3) setPopupPage("earnings");
-              if (tab === 4) setPopupPage("history");
+            onTabChange={handleTabChange}
+          />
+        )}
+      </DialogPopup>
+
+      {/* ================= EDIT PROFILE ================= */}
+      <DialogPopup open={popupPage === "editProfile"} onClose={closeAll}>
+        {selectedAgent && (
+          <EditAgentProfile
+            agent={selectedAgent}
+            onBack={() => setPopupPage("history")}
+          />
+        )}
+      </DialogPopup>
+
+      {/* ================= SUSPEND ================= */}
+      <DialogPopup open={popupPage === "suspend"} onClose={closeAll}>
+        {selectedAgent && (
+          <SuspendPage
+            agent={selectedAgent}
+            onCancel={() => setPopupPage("earnings")}
+          />
+        )}
+      </DialogPopup>
+
+      {/* ================= UPGRADE ================= */}
+      <DialogPopup open={popupPage === "upgrade"} onClose={closeAll}>
+        {selectedAgent && (
+          <UpgradePackagePage
+            agent={selectedAgent}
+            onCancel={() => setPopupPage("overview")}
+            onConfirm={(pkg) => {
+              setSelectedUpgrade(pkg);
+              setPopupPage("upgradeSummary");
             }}
           />
         )}
       </DialogPopup>
 
-      {/* EDIT PROFILE */}
-      <DialogPopup open={popupPage === "editProfile"} onClose={closeAll}>
-        <EditAgentProfile
-          agent={selectedAgent}
-          onBack={() => setPopupPage("history")}
-        />
-      </DialogPopup>
-
-      {/* SUSPEND POPUP */}
-      <DialogPopup open={popupPage === "suspend"} onClose={closeAll}>
-        <SuspendPage
-          agent={selectedAgent}
-          onCancel={() => setPopupPage("earnings")}
-        />
-      </DialogPopup>
-
-      {/* UPGRADE PACKAGE */}
-      <DialogPopup open={popupPage === "upgrade"} onClose={closeAll}>
-        <UpgradePackagePage
-          agent={selectedAgent}
-          onCancel={() => setPopupPage("overview")}
-          onConfirm={(pkg) => {
-            setSelectedUpgrade(pkg);
-            setPopupPage("upgradeSummary");
-          }}
-        />
-      </DialogPopup>
-
-      {/* UPGRADE SUMMARY */}
+      {/* ================= UPGRADE SUMMARY ================= */}
       <DialogPopup open={popupPage === "upgradeSummary"} onClose={closeAll}>
         <UpgradeSummaryPage
           packageName={selectedUpgrade}
@@ -332,18 +362,17 @@ const MainApp = () => {
         />
       </DialogPopup>
 
-      {/* 🔥 VERIFICATION POPUP */}
+      {/* ================= VERIFICATION ================= */}
       <DialogPopup open={popupPage === "verification"} onClose={closeAll}>
-        <VerificationPage
-          agent={selectedAgent}
-          onBack={() => setPopupPage("kyc")}
-        />
+        {selectedAgent && (
+          <VerificationPage
+            agent={selectedAgent}
+            onBack={() => setPopupPage("kyc")}
+          />
+        )}
       </DialogPopup>
-
     </Box>
   );
 };
 
 export default MainApp;
-
-

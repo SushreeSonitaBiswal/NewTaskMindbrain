@@ -34,7 +34,7 @@ const menuSections = [
   {
     heading: "Catalog & BV Setup",
     items: [
-      { name: "Catalog", icon: <GridViewIcon />, path: "/catalog" },
+      { name: "Catalog & BV Setup", icon: <GridViewIcon />, path: "/catalog" },
       { name: "Packages", icon: <CardGiftcardIcon />, path: "/packages" },
     ],
   },
@@ -44,30 +44,30 @@ const menuSections = [
   },
   {
     heading: "Users & Agents",
-    items: [{ name: "Users", icon: <PeopleIcon />, path: "/users" }],
+    items: [{ name: "Users & Agents", icon: <PeopleIcon />, path: "/users" }],
   },
   {
     heading: "Genealogy & Placement",
-    items: [{ name: "Genealogy", icon: <AccountTreeIcon />, path: "/genealogy" }],
+    items: [{ name: "Genealogy & Placement", icon: <AccountTreeIcon />, path: "/genealogy" }],
   },
   {
     heading: "Wallets & Payouts",
-    items: [{ name: "Income", icon: <WalletIcon />, path: "/income" }],
+    items: [{ name: "Wallets & Payouts", icon: <WalletIcon />, path: "/income" }],
   },
   {
     heading: "Rewards Management",
-    items: [{ name: "Rewards", icon: <LocalActivityIcon />, path: "/rewards" }],
+    items: [{ name: "Rewards Management", icon: <LocalActivityIcon />, path: "/rewards" }],
   },
   {
     heading: "CMS, Marketing",
     items: [
-      { name: "CMS", icon: <CampaignIcon />, path: "/cms" },
+      { name: "CMS , Marketing", icon: <CampaignIcon />, path: "/cms" },
     ],
   },
   {
     heading: "Reports & Analytics",
     items: [
-      { name: "Reports", icon: <AssessmentIcon />, path: "/reports" },
+      { name: "Reports & Analytics", icon: <AssessmentIcon />, path: "/reports" },
     ],
   },
   {
@@ -80,7 +80,7 @@ const menuSections = [
     heading: "Roles & Permissions",
     items: [
       {
-        name: "Admin Roles",
+        name: "Roles & Permissions",
         icon: <AdminPanelSettingsIcon />,
         path: "/roles",
       },

@@ -36,7 +36,8 @@ import Layout from "./components/layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Catalog from "./pages/Dashboard/Catalog";
 import Login from "./pages/Login";
-import MainApp from "./pages/Dashboard/NewUser/MainApp";
+import MainApp from "./pages/Dashboard/UsersAndAgents/MainApp";
+import MainContainer from "./pages/Dashboard/ReportsAndAnalytics/MainContainer";
  
 function App() {
   return (
@@ -50,6 +51,8 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/users" element={<MainApp />} />
+          <Route path="/reports" element={<MainContainer />} />
+
 
             
         </Route>
